@@ -16,6 +16,14 @@ namespace Monitor
             Console.WriteLine("Press any key to stop..");
             
             bool anyKeyPress = false;// boolean datatype to check if any key pressed
+            bool cancelKeyPress = false;// boolean datatype to check if cancel key is pressed
+            Console.CancelKeyPress += (sender, eventArgs) =>
+            {
+                eventArgs.Cancel = true;
+                cancelKeyPress = true;
+            };
+
+
 
             while (!anyKeyPress)// if not any key pressed continue...
             {
@@ -28,14 +36,25 @@ namespace Monitor
                         //Environment.Exit(0);
                     }
                 }
-                 //loop to get each process in variable process and kill
-                foreach (var process in Process.GetProcessesByName(processName))
+
+                while (!cancelKeyPress)//if not yet cancelled or terminated continue....
                 {
-                    TimeSpan processlifetime = DateTime.Now - process.StartTime;//Calculate the pocess lifetime
-                    if (processlifetime.Minutes > maxLifetimeMinutes)// condition to check if process lifetime exceed
+                    //loop to get each process in variable process and kill
+                    foreach (var process in Process.GetProcessesByName(processName))
                     {
-                        process.Kill();//kill process
+                        TimeSpan processlifetime = DateTime.Now - process.StartTime;//Calculate the pocess lifetime
+                        if (processlifetime.Minutes >= maxLifetimeMinutes)// condition to check if process lifetime exceed
+                        {
+                            process.Kill();//kill process
+                        }
                     }
+                    Thread sleepThread = new Thread(() => { Thread.Sleep(maxLifetimeMinutes*60000); });
+                    sleepThread.Start();
+                    while (!Console.KeyAvailable)
+                    {
+                        Thread.Sleep(10);
+                    }
+                    sleepThread.Interrupt();
                 }
             }
 
