@@ -15,16 +15,18 @@ namespace Monitor
             Console.WriteLine("Monioring process " + processName + " every " + monitoringFreqMin + " minutes and terminate if exceed "+maxLifetimeMinutes+" minutes...");
             Console.WriteLine("Press any key to stop..");
             
+
+
             bool anyKeyPress = false;// boolean datatype to check if any key pressed
             bool cancelKeyPress = false;// boolean datatype to check if cancel key is pressed
             Console.CancelKeyPress += (sender, eventArgs) =>
             {
                 eventArgs.Cancel = true;
                 cancelKeyPress = true;
-            };
+            };//set cancel key press to true if process is closed or terminated
 
 
-
+            
             while (!anyKeyPress)// if not any key pressed continue...
             {
                 if (Console.KeyAvailable)//check if any key pressed
@@ -46,6 +48,7 @@ namespace Monitor
                         if (processlifetime.Minutes >= maxLifetimeMinutes)// condition to check if process lifetime exceed
                         {
                             process.Kill();//kill process
+                            LogData(process.ProcessName);
                         }
                     }
                     Thread sleepThread = new Thread(() => { Thread.Sleep(maxLifetimeMinutes*60000); });
@@ -58,6 +61,11 @@ namespace Monitor
                 }
             }
 
+           
+        }
+
+        static void LogData(string processName)
+        {
             /*Stream Writer used to create file and append file */
             string Log = $"{DateTime.Now}: Process '{processName}' exceeded time limit and was terminated";// log format to be added in text file
             using (StreamWriter sw = File.AppendText("process_log.txt"))//append the string Log to process_log.txt file
