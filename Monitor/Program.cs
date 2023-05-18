@@ -17,8 +17,14 @@ namespace Monitor
             //loop to get each process in variable process and kill
             foreach (var process in Process.GetProcessesByName(processName))
             {
-                process.Kill();//kill process
+                TimeSpan processlifetime = DateTime.Now - process.StartTime;//Calculate the pocess lifetime
+                if (processlifetime.Minutes > maxLifetimeMinutes)// condition to check if process lifetime exceeds the maximum lifetime
+                {
+                    process.Kill();//kill process
+                }
             }
+
+
 
         }
     }
