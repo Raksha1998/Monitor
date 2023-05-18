@@ -38,6 +38,13 @@ namespace Monitor
                     }
                 }
             }
+
+            /*Stream Writer used to create file and append file */
+            string Log = $"{DateTime.Now}: Process '{processName}' exceeded time limit and was terminated";// log format to be added in text file
+            using (StreamWriter sw = File.AppendText("process_log.txt"))//append the string Log to process_log.txt file
+            {
+                sw.WriteLine(Log);
+            }
         }
     }
 }
