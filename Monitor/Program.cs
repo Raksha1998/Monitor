@@ -21,7 +21,12 @@ namespace Monitor
             {
                 if (Console.KeyAvailable)//check if any key pressed
                 {
-                    anyKeyPress = true;//set any key press boolean datatype to true to exit from the loop
+                    ConsoleKeyInfo key_info = Console.ReadKey(intercept: true);//read the key and store in key_info
+                    if (key_info.Key == ConsoleKey.Q)// check if key pressed is Q
+                    {
+                        anyKeyPress = true;
+                        //Environment.Exit(0);
+                    }
                 }
                  //loop to get each process in variable process and kill
                 foreach (var process in Process.GetProcessesByName(processName))
