@@ -22,13 +22,13 @@ namespace Monitor
 
             while(!Console.KeyAvailable|| Console.ReadKey(intercept: true).Key!=ConsoleKey.Q)
             {
-                KillProcessRunningLong(processName, maxLifetimeMinutes, monitoringFreqMin);//method call to perform
+                KillProcessRunningLong(processName, maxLifetimeMinutes);//method call to perform
                 Thread.Sleep(monitoringFreqMin * 60000);//sleep for every given freq time
             }
 
         }
 
-        public static void KillProcessRunningLong(string processName, int maxLifetimeMinutes, int monitoringFreqMin)
+        public static void KillProcessRunningLong(string processName, int maxLifetimeMinutes)
         {
 
             Process[] processes_target = Process.GetProcessesByName(processName);//store all process in processes array 
