@@ -13,16 +13,15 @@ namespace Monitor
             int maxLifetimeMinutes = 1;// process maximum lifetime alloted
             int monitoringFreqMin = 1;// process monitoring frequency
 
+            KillProcessRunningLong(processName, maxLifetimeMinutes, monitoringFreqMin);//method call to perform
+            Thread.Sleep(monitoringFreqMin*60000);//sleep for every given freq time
+           
+        }
+
+        private static void KillProcessRunningLong( string processName, int maxLifetimeMinutes,int monitoringFreqMin)
+        {
             Console.WriteLine("Monitoring process " + processName + " every " + monitoringFreqMin + " minutes and terminate if exceed " + maxLifetimeMinutes + " minutes...");
             Console.WriteLine("Press Q to stop..");
-
-
-            //Process[] pname = Process.GetProcessesByName(processName);//get process information
-            //bool isAnyProcessExist = pname.Length > 0;//check if any process exist and set boolean datatype accordingly;
-
-            /*check if any processes exist and if any special key is pressed*/
-
-            //Exit Condition (PRESS Q or Any special Key Pressed condition
             while (!Console.KeyAvailable)
             {
                 Process[] pname = Process.GetProcessesByName(processName);//get process information
@@ -50,23 +49,21 @@ namespace Monitor
                         }
                     }
                     processes = null;// clear all processes to exit loop and check if any key available or new process exist
-                    isAnyProcessExist=false;//terminated processes and hence set false since no old process exist
+                    isAnyProcessExist = false;//terminated processes and hence set false since no old process exist
                     //Thread.Sleep(monitoringFreqMin * 60000);//sleep for the frequency given
                 }
             }
-
-           
         }
 
-         static void LogData(string processName)
+        static void LogData(string processName)
+        {
+            /*Stream Writer used to create file and append file */
+            string Log = $"{DateTime.Now}: Process '{processName}' exceeded time limit and was terminated";// log format to be added in text file
+            using (StreamWriter sw = File.AppendText("process_log.txt"))//append the string Log to process_log.txt file
             {
-                /*Stream Writer used to create file and append file */
-                string Log = $"{DateTime.Now}: Process '{processName}' exceeded time limit and was terminated";// log format to be added in text file
-                using (StreamWriter sw = File.AppendText("process_log.txt"))//append the string Log to process_log.txt file
-                {
-                    sw.WriteLine(Log);
-                }
+                sw.WriteLine(Log);
             }
+        }           
     }
 }
     
