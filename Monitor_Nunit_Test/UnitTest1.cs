@@ -1,3 +1,9 @@
+using Microsoft.VisualStudio.TestPlatform.TestHost;
+using Monitor;
+using NUnit.Framework;
+using System.ComponentModel;
+using System.Diagnostics;
+
 namespace Monitor_Nunit_Test
 {
     public class Tests
@@ -10,7 +16,6 @@ namespace Monitor_Nunit_Test
         [Test]
         public void Test1()
         {
-            Assert.Pass();
         }
     }
 }
