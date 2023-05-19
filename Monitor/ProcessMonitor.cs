@@ -13,9 +13,9 @@ namespace Monitor
         {
             //Initialising Variables
 
-            string processName = "Notepad";// process name argument
-            int maxLifetimeMinutes = 1;// process maximum lifetime alloted
-            int monitoringFreqMin = 1;// process monitoring frequency
+            string processName = args[0];// process name argument
+            int maxLifetimeMinutes = int.Parse(args[1]);// process maximum lifetime alloted
+            int monitoringFreqMin = int.Parse(args[2]);// process monitoring frequency
 
             Console.WriteLine("Monitoring process " + processName + " every " + monitoringFreqMin + " minutes and terminate if exceed " + maxLifetimeMinutes + " minutes...");
             Console.WriteLine("Press Q to stop..");
