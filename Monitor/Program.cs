@@ -26,7 +26,7 @@ namespace Monitor
             while (!Console.KeyAvailable)
             {
                 Process[] pname = Process.GetProcessesByName(processName);//get process information
-                bool isAnyProcessExist = pname.Length > 0;//check if any process exist and set boolean datatype accordingly;
+                bool isAnyProcessExist = pname.Length > 0;//check if any new process exist and set boolean datatype accordingly;
 
                 if (Console.KeyAvailable)
                 {
@@ -36,11 +36,11 @@ namespace Monitor
                         Environment.Exit(0);
                     }
                 }
-                while (isAnyProcessExist)
+                while (isAnyProcessExist)//if any process exist
                 {
-                    Process[] processes = Process.GetProcessesByName(processName);
+                    Process[] processes = Process.GetProcessesByName(processName);//store all process in processes array 
                     //loop to get each process in variable process and kill
-                    foreach (var process in processes)
+                    foreach (var process in processes)// check every process and terminate if exceed lifetime
                     {
                         TimeSpan processlifetime = DateTime.Now - process.StartTime;//Calculate the pocess lifetime
                         if (processlifetime.Minutes >= maxLifetimeMinutes)// condition to check if process lifetime exceed
@@ -49,8 +49,8 @@ namespace Monitor
                             LogData(process.ProcessName);//calling log data function to record in log file
                         }
                     }
-                    processes = null;
-                    isAnyProcessExist=false;
+                    processes = null;// clear all processes to exit loop and check if any key available or new process exist
+                    isAnyProcessExist=false;//terminated processes and hence set false since no old process exist
                     //Thread.Sleep(monitoringFreqMin * 60000);//sleep for the frequency given
                 }
             }
