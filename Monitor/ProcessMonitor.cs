@@ -9,23 +9,35 @@ namespace Monitor
 {
     public class ProcessMonitor
     {
-        static void Main(string[] args)
+        public static bool Main(string[] args)
         {
             //Initialising Variables
+            if(args.Length != 3)
+            {
+                Console.WriteLine("Invalid Arguments");
+                return false;
+            }
+            if (!int.TryParse(args[1], out int maxLifetimeMinutes) || !int.TryParse(args[2],out int monitoringFreqMin))
+            {
+                Console.WriteLine("Maximum lifetime and monitoring frequency must be valid integers");
+                return false;
+            }
+            
+            return RunUtility(args[0],maxLifetimeMinutes, monitoringFreqMin);
 
-            string processName = args[0];// process name argument
-            int maxLifetimeMinutes = int.Parse(args[1]);// process maximum lifetime alloted
-            int monitoringFreqMin = int.Parse(args[2]);// process monitoring frequency
+        }
 
+        public static bool RunUtility( string processName, int maxLifetimeMinutes, int monitoringFreqMin )
+        {
             Console.WriteLine("Monitoring process " + processName + " every " + monitoringFreqMin + " minutes and terminate if exceed " + maxLifetimeMinutes + " minutes...");
             Console.WriteLine("Press Q to stop..");
 
-            while(!Console.KeyAvailable|| Console.ReadKey(intercept: true).Key!=ConsoleKey.Q)
+            while (!Console.KeyAvailable || Console.ReadKey(intercept: true).Key != ConsoleKey.Q)
             {
                 KillProcessRunningLong(processName, maxLifetimeMinutes);//method call to perform
                 Thread.Sleep(monitoringFreqMin * 60000);//sleep for every given freq time
             }
-
+            return true;
         }
 
         public static void KillProcessRunningLong(string processName, int maxLifetimeMinutes)

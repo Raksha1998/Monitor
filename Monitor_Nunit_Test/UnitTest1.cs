@@ -1,3 +1,4 @@
+using Microsoft.CodeAnalysis;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
 using Monitor;
 using NUnit.Framework;
@@ -17,6 +18,11 @@ namespace Monitor_Nunit_Test
         public void Setup()
         {
             
+        }
+
+        public void TestCommandLineArgsParse()
+        {
+        
         }
 
         [Test]
