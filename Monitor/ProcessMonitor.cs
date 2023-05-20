@@ -11,28 +11,24 @@ namespace Monitor
     {
         public static void Main(string[] args)
         {
-          
-            string processName = "Notepad";
-            int maxLifetimeMinutes = 5;
-            int monitoringFreqMin = 1;
-
-            CommandLineArgs(new[] { "Notepad", "5", "1" });
+          //Initialization 
+            string processName = args[0];
+            int maxLifetimeMinutes = int.Parse(args[1]);
+            int monitoringFreqMin = int.Parse(args[2]);
 
             RunUtility(processName, maxLifetimeMinutes, monitoringFreqMin);
 
+            //CommandLineArgs(new[] { "Note", "Invalid", "1" });
         }
 
         public static bool CommandLineArgs(string[] args)
         {
             bool result = true;
 
-            if (!int.TryParse(args[1], out int maxLifetimeMinutes))
+            if (!int.TryParse(args[1], out int maxLifetimeMinutes)|| !int.TryParse(args[2], out int monitoringFreqMin))
             {
-                if (!int.TryParse(args[2], out int monitoringFreqMin))
-                {
-                    Console.WriteLine("Maximum lifetime and monitoring frequency must be valid integers");
-                    result = false;
-                }
+                Console.WriteLine("Maximum lifetime and monitoring frequency must be valid integers");
+                result = false;
             }
             return result;
         }
