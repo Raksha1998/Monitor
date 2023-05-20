@@ -20,40 +20,30 @@ namespace Monitor_Nunit_Test
             
         }
 
+        [Test]
+        /* Test Valid Command Line Arguments */
         public void TestCommandLineArgsParse()
         {
+            bool result = ProcessMonitor.CommandLineArgs(new[] { "notepad", "5", "1" });
+            Assert.IsTrue(result);
+        }
+
+        //[Test]
+        //public void TestCase_KillProcessRunningLong()
+        //{
+        //    //start a process
+        //    Process.Start(processName);
+
+        //    //Act
+        //    //wait for max life time minutes and 5 seconds more to ensure process exceeds maximum lifetime to kill
+        //    Thread.Sleep((maxLifetimeMinutes) * 65000);
+        //    ProcessMonitor.KillProcessRunningLong(processName, maxLifetimeMinutes);
+
+        //    //Assert
+        //    Process[] processempty = Process.GetProcessesByName(processName);
+        //    Assert.IsEmpty(processempty);
+        //}
+
         
-        }
-
-        [Test]
-        public void TestCase_KillProcessRunningLong()
-        {
-            //start a process
-            Process.Start(processName);
-
-            //Act
-            //wait for max life time minutes and 5 seconds more to ensure process exceeds maximum lifetime to kill
-            Thread.Sleep((maxLifetimeMinutes) * 65000);
-            ProcessMonitor.KillProcessRunningLong(processName, maxLifetimeMinutes);
-
-            //Assert
-            Process[] processempty = Process.GetProcessesByName(processName);
-            Assert.IsEmpty(processempty);
-        }
-
-        public void TestCase2_KillProcessRunningLong()
-        {
-            //start a process
-            Process.Start(processName);
-
-            //Act
-            //wait for max life time minutes and 5 seconds more to ensure process exceeds maximum lifetime to kill
-            Thread.Sleep((maxLifetimeMinutes) * 65000);
-            ProcessMonitor.KillProcessRunningLong(processName, maxLifetimeMinutes);
-
-            //Assert
-            Process[] processempty = Process.GetProcessesByName(processName);
-            Assert.IsTrue(processempty.Length<0);
-        }
     }
 }

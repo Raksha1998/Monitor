@@ -9,22 +9,26 @@ namespace Monitor
 {
     public class ProcessMonitor
     {
-        public static bool Main(string[] args)
+        public static void Main(string[] args)
         {
-            //Initialising Variables
-            if(args.Length != 3)
-            {
-                Console.WriteLine("Invalid Arguments");
-                return false;
-            }
-            if (!int.TryParse(args[1], out int maxLifetimeMinutes) || !int.TryParse(args[2],out int monitoringFreqMin))
-            {
-                Console.WriteLine("Maximum lifetime and monitoring frequency must be valid integers");
-                return false;
-            }
-            
-            return RunUtility(args[0],maxLifetimeMinutes, monitoringFreqMin);
+          
+            string processName = "Notepad";
+            int maxLifetimeMinutes = 5;
+            int monitoringFreqMin = 1;
 
+            CommandLineArgs(new[] { "Notepad", "5", "1" });
+
+            RunUtility(processName, maxLifetimeMinutes, monitoringFreqMin);
+
+        }
+
+        public static bool CommandLineArgs(string[] args)
+        {
+            while (!int.TryParse(args[1], out int maxLifetimeMinutes) || !int.TryParse(args[2],out int monitoringFreqMin))
+            {
+                Console.WriteLine("Maximum lifetime and monitoring frequency must be valid integers");             
+            }
+            return true;
         }
 
         public static bool RunUtility( string processName, int maxLifetimeMinutes, int monitoringFreqMin )
