@@ -24,11 +24,17 @@ namespace Monitor
 
         public static bool CommandLineArgs(string[] args)
         {
-            while (!int.TryParse(args[1], out int maxLifetimeMinutes) || !int.TryParse(args[2],out int monitoringFreqMin))
+            bool result = true;
+
+            if (!int.TryParse(args[1], out int maxLifetimeMinutes))
             {
-                Console.WriteLine("Maximum lifetime and monitoring frequency must be valid integers");             
+                if (!int.TryParse(args[2], out int monitoringFreqMin))
+                {
+                    Console.WriteLine("Maximum lifetime and monitoring frequency must be valid integers");
+                    result = false;
+                }
             }
-            return true;
+            return result;
         }
 
         public static bool RunUtility( string processName, int maxLifetimeMinutes, int monitoringFreqMin )
