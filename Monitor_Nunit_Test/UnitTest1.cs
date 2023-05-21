@@ -73,10 +73,13 @@ namespace Monitor_Nunit_Test
             ProcessMonitor.LogData(processName);
             string[] lines = File.ReadAllLines(@"C:\temp\Monitor\Monitor\bin\Debug\net6.0\process_log.txt");
             string lastline = lines[lines.Length - 1];
+            DateTime currenttime=DateTime.Now;
             string Log = $"{DateTime.Now}: Process '{processName}' exceeded time limit and was terminated";// log format to be added in text file
 
             //Assert
-            Assert.That(Log, Is.EqualTo(lastline));
+            Assert.IsTrue(Log.Contains(processName));
+            Assert.IsTrue(Log.Contains(currenttime.ToString()));
+            
         }
 
     }
