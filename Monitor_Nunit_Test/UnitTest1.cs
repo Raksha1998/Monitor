@@ -32,6 +32,7 @@ namespace Monitor_Nunit_Test
             //Assert
             Assert.IsTrue(result);
         }
+
         [Test]
         /* Test Invalid Command Line Arguments */
         public void TestCommandLineArgs_Invalid()
@@ -43,22 +44,40 @@ namespace Monitor_Nunit_Test
             Assert.IsFalse(result);
         }
 
-        //[Test]
-        //public void TestCase_KillProcessRunningLong()
-        //{
-        //    //start a process
-        //    Process.Start(processName);
+        /* Test to validate the process killing method*/
+        [Test]
+        public void TestCase_KillProcessRunningLong()
+        {
+            //start a process
+            Process.Start(processName);
 
-        //    //Act
-        //    //wait for max life time minutes and 5 seconds more to ensure process exceeds maximum lifetime to kill
-        //    Thread.Sleep((maxLifetimeMinutes) * 65000);
-        //    ProcessMonitor.KillProcessRunningLong(processName, maxLifetimeMinutes);
+            //Act
+            //wait for max life time minutes and 5 seconds more to ensure process exceeds maximum lifetime to kill
+            Thread.Sleep((maxLifetimeMinutes) * 65000);
+            ProcessMonitor.KillProcessRunningLong(processName, maxLifetimeMinutes);
 
-        //    //Assert
-        //    Process[] processempty = Process.GetProcessesByName(processName);
-        //    Assert.IsEmpty(processempty);
-        //}
+            //Assert
+            Process[] processempty = Process.GetProcessesByName(processName);
+            Assert.IsEmpty(processempty);
+        }
 
-        
+        /* Test to ensure the logging functionality*/
+        [Test]
+        public void Test_LogData()
+        {
+            //Arrange                         
+            Process.Start(processName);
+            ProcessMonitor.KillProcessRunningLong(processName, 0);
+
+            //Act
+            ProcessMonitor.LogData(processName);
+            string[] lines = File.ReadAllLines(@"C:\temp\Monitor\Monitor\bin\Debug\net6.0\process_log.txt");
+            string lastline = lines[lines.Length - 1];
+            string Log = $"{DateTime.Now}: Process '{processName}' exceeded time limit and was terminated";// log format to be added in text file
+
+            //Assert
+            Assert.That(Log, Is.EqualTo(lastline));
+        }
+
     }
 }
